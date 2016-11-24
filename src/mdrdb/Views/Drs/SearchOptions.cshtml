@@ -1,0 +1,83 @@
+﻿@model SearchOptionsModelView
+
+<h1>Search Options</h1>
+
+@* row: project *@
+<div class="row">
+    @{await Html.RenderPartialAsync("SearchOptionsPane", new SearchOptionsPaneModelView
+        {
+            Values = Model.Projects?.Select(w => Tuple.Create(w.Id, w.Nn.Trim() + " - " + w.AcName.Trim())),
+            RemoveAction = "RemoveProjectFilter",
+            ClearFunction = "clearprojectfilters",
+            NoFilterName = "All Projects",
+            AddName = "Add new project to the filter",
+            AddFunction = "addprojectfilter",
+            Width = 4,
+            PaneName = "Selected Projects"
+        });}
+    @{await Html.RenderPartialAsync("SearchOptionsPane", new SearchOptionsPaneModelView
+        {
+            Values = Model.Statuses?.Select(w => Tuple.Create((int)w.Id, w.Status)),
+            RemoveAction = "RemoveStatusFilter",
+            ClearFunction = "clearstatusfilters",
+            NoFilterName = "All Statuses",
+            AddName = "Add new status to the filter",
+            AddFunction = "addstatusfilter",
+            Width = 2,
+            PaneName = "Selected Statuses"
+        });}
+</div>
+
+@* row: buttons *@
+<div class="row">
+    <div class="col-md-5">
+        <a asp-action="list">Back to Overview</a>
+    </div>
+</div>
+
+@section Scripts {
+    @foreach (var pane in new[] { "Project", "Status" })
+    {
+        <script type="text/javascript">
+
+            dlg@(pane) = null;
+
+            function add@(pane.ToLower())filter() {
+                if (!dlg@(pane)) {
+                    $.ajax({
+                        type: 'get',
+                        url: '@Url.Action("Get" + pane + "Filters")',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function (data, textStatus, jqXHR) {
+                            if (data) {
+                                // form the dialog HTML
+                                var dialog = '@{Html.BeginForm("Add" + pane + "Filter", "Drs", FormMethod.Post, new { id = "add" + pane.ToLower() + "form" });}';
+                                for (var idx = 0; idx < data.length; ++idx)
+                                    dialog += '<div><a href="#" onclick="return addselected@(pane.ToLower())(' + data[idx].id + ')">' + data[idx].name + '</a></div>';
+                                dialog += '<input type="hidden" class="add@(pane.ToLower())hid" name="id"><script>function addselected@(pane.ToLower())(id){$(".add@(pane.ToLower())hid").val(id);$(add@(pane.ToLower())form).submit();}<' + '/script>@{Html.EndForm();}';
+
+                                // and build it
+                                dlg@(pane) = $(dialog).dialog({
+                                    height: 400,
+                                    width: 700,
+                                    title: 'Add @(pane)',
+                                    modal: true,
+                                    buttons: { 'Cancel': function () { dlg@(pane).dialog('close'); } }
+                                });
+                            }
+                        }
+                    });
+                }
+                else
+                    dlg@(pane).dialog();
+
+                return false;
+            }
+
+            function clear@(pane.ToLower())filters() {
+                $('@{Html.BeginForm("Clear" + pane + "Filters", "Drs", FormMethod.Post); Html.EndForm();}').submit();
+            }
+        </script>
+    }
+}

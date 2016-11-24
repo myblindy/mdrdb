@@ -1,0 +1,32 @@
+﻿@model IEnumerable<DrDr>
+
+@foreach (var line in Model.Select((item, idx) => new { Index = idx, Item = item }))
+{
+    <div class="dr-item @( line.Index % 2 == 1 ? "alternate" : "" )">
+        <div class="row">
+            <div class="col-md-1 drnum">
+                <span class="lower-emphasis">DR #</span><a asp-action="ViewDr" asp-route-id="@line.Item.Id">@line.Item.ProjDr</a>
+            </div>
+            <div class="col-md-9 description">@line.Item.Descr1.Trim()</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1 overflow-ellipsis status">@line.Item.DrHistory.Last().StatusNavigation.Status.Trim()</div>
+            <div class="col-md-2 overflow-ellipsis dr-project">@line.Item.ProjectNavigation.Nn.Trim() - @line.Item.ProjectNavigation.AcName.Trim()</div>
+            <div class="col-md-2 overflow-ellipsis ata">@line.Item.AtaNavigation.Descr.Trim()</div>
+            <div class="col-md-2 overflow-ellipsis assigned-to">
+                <span class="lower-emphasis">Assigned to</span>
+                @line.Item.DrHistory.Last().AssignedNavigation.Fname.Trim() @line.Item.DrHistory.Last().AssignedNavigation.Lname.Trim()
+            </div>
+            <div class="col-md-2 date-field"><span class="lower-emphasis">Updated on</span> @line.Item.DrHistory.Last().Date.Trim()</div>
+            @if (!string.IsNullOrWhiteSpace(line.Item.DueDate))
+            {
+                <div class="col-md-2 date-field"><span class="lower-emphasis">Due on</span> @line.Item.DueDate.Trim()</div>
+            }
+            else
+            {
+                <div class="col-md-2 date-field"><span class="lower-emphasis">No due date</span></div>
+            }
+        </div>
+    </div>
+}

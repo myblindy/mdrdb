@@ -1,0 +1,57 @@
+﻿body {
+    padding-top: 5rem;
+}
+
+.main-container {
+    padding: 0rem 1.5rem;
+}
+
+/* dr items */
+.dr-item {
+    border-bottom: 1px solid #e4e6e8;
+    color: #666;
+    padding: 4px;
+}
+
+    .dr-item.alternate {
+        background-color: #fffbec;
+    }
+
+    .dr-item .lower-emphasis {
+        font-size: smaller;
+        color: darkgrey;
+    }
+
+    .dr-item .overflow-ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dr-item .drnum {
+        color: #000;
+    }
+
+    .dr-item .description {
+        font-size: smaller;
+        color: #000;
+    }
+
+    .dr-item .status {
+    }
+
+    .dr-item .date-field {
+    }
+
+        .dr-item .date-field .date {
+        }
+
+    .dr-item .ata {
+    }
+
+.search-state {
+}
+
+.selected-item form {
+    display: inline;
+}
