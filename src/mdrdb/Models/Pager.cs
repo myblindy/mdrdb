@@ -10,7 +10,7 @@ namespace mdrdb.Models
         public Pager(int totalItems, int? page, int pageSize = 30)
         {
             // calculate total, start and end pages
-            var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
+            var totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
             var currentPage = page != null ? (int)page : 1;
             var startPage = currentPage - 5;
             var endPage = currentPage + 4;

@@ -21,10 +21,10 @@ namespace mdrdb.Models
         public int? Deletedfilesgroup { get; set; }
         public int? AttachmentId { get; set; }
 
-        public virtual DrEmployee AssignedNavigation { get; set; }
-        public virtual DrDr DrNumNavigation { get; set; }
-        public virtual DrStatus StatusNavigation { get; set; }
-        public virtual DrHistory DrHistoryNavigation { get; set; }
-        public virtual DrHistory InverseDrHistoryNavigation { get; set; }
+        public DrEmployee AssignedNavigation { get; set; }
+        public DrDr DrNumNavigation { get; set; }
+        public DrStatus StatusNavigation { get; set; }
+        public DrHistory DrHistoryNavigation { get; set; }
+        public DrHistory InverseDrHistoryNavigation { get; set; }
     }
 }

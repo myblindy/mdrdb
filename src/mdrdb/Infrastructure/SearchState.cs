@@ -34,34 +34,33 @@ namespace mdrdb.Infrastructure
         /// <returns>An async task representing the SearchState object</returns>
         public static async Task<SearchState> New(string s, IQueryable<DrProj> projects, IQueryable<DrStatus> statuses,
             bool FillDescription = true,
-            Func<IEnumerable<int>, IEnumerable<int>> ProjectsFilter = null, Func<IEnumerable<int>, IEnumerable<int>> StatusesFilter = null)
+            IEnumerable<int> ProjectsOverrideList = null, IEnumerable<int> StatusesOverrideList = null)
         {
             var ss = new SearchState();
 
             dynamic searchjson = string.IsNullOrWhiteSpace(s) ? null : JsonConvert.DeserializeObject(s);
             var description = "DRs";
 
-            ss.ProjectIDs = (searchjson?.ProjectIDs as IEnumerable<JToken>)?.Select(w => w.Value<int>())?.ToList();
-            if (ProjectsFilter != null)
-                ss.ProjectIDs = ss.ProjectIDs == null ? ProjectsFilter(new int[0]) : ProjectsFilter(ss.ProjectIDs);
-            if (ss.ProjectIDs?.Any() == true)
+            ss.ProjectIDs = ProjectsOverrideList ?? (searchjson?.ProjectIDs as IEnumerable<JToken>)?.Select(w => w.Value<int>())?.ToList();
+            if (ss.ProjectIDs?.Any() == true && projects != null)
             {
                 ss.Projects = projects.Where(p => ss.ProjectIDs.Contains(p.Id));
                 if (FillDescription)
                     description += " that belong to " + CommaAndJoin(
                         (await ss.Projects.Select(p => new { Name = p.Nn.Trim(), Description = p.AcName.Trim() }).ToListAsync())
-                        .Select(p => $"<abbr title='{HtmlEncoder.Default.HtmlEncode(p.Description)}'>{HtmlEncoder.Default.HtmlEncode(p.Name)}</abbr>")
+                        .Select(p => $"<mark><abbr title='{HtmlEncoder.Default.HtmlEncode(p.Description)}'>{HtmlEncoder.Default.HtmlEncode(p.Name)}</abbr></mark>")
                         .ToList()) + " ";
             }
 
-            ss.StatusIDs = (searchjson?.StatusIDs as IEnumerable<JToken>)?.Select(w => w.Value<int>())?.ToList();
-            if (StatusesFilter != null)
-                ss.StatusIDs = ss.StatusIDs == null ? StatusesFilter(new int[0]) : StatusesFilter(ss.StatusIDs);
-            if (ss.StatusIDs?.Any() == true)
+            ss.StatusIDs = StatusesOverrideList ?? (searchjson?.StatusIDs as IEnumerable<JToken>)?.Select(w => w.Value<int>())?.ToList();
+            if (ss.StatusIDs?.Any() == true && statuses != null)
             {
                 ss.Statuses = statuses.Where(w => ss.StatusIDs.Contains(w.Id));
                 if (FillDescription)
-                    description = CommaAndJoin(await ss.Statuses.Select(w => w.Status).ToListAsync()) + " " + description;
+                    description = CommaAndJoin(
+                        (await ss.Statuses.Select(w => new { w.Status, w.Descr }).ToListAsync())
+                        .Select(w => $"<mark><abbr title='{HtmlEncoder.Default.HtmlEncode(w.Descr)}'>{HtmlEncoder.Default.HtmlEncode(w.Status)}</abbr></mark>")
+                        .ToList()) + " " + description;
             }
 
             if (FillDescription && description.StartsWith("DRs"))

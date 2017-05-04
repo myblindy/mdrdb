@@ -1,34 +1,11 @@
 ﻿@model HomeModelView
 
-<div class="search-state">
-    Showing @Model.SearchState.Description.
-    <a asp-action="SearchOptions">(change)</a>
-</div>
+<p class="bg-info search-state-description">
+    Showing @Model.SearchState.Description. <a asp-action="SearchOptions">(change)</a>
+</p>
+
+@await Html.PartialAsync("Pager", Model.Pager)
+
 @await Html.PartialAsync("DrItem", Model.DrCollection)
 
-<!-- pager -->
-@if (Model.Pager.EndPage > 1)
-{
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            @if (Model.Pager.CurrentPage > 1)
-            {
-                <li class="page-item"><a class="page-link" asp-route-id="1">First</a></li>
-                <li class="page-item"><a class="page-link" asp-route-id="@(Model.Pager.CurrentPage - 1)">&laquo;</a></li>
-            }
-
-            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-            {
-                <li class="page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-route-id="@page">@page</a>
-                </li>
-            }
-
-            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-            {
-                <li class="page-item"><a class="page-link" asp-route-id="@(Model.Pager.CurrentPage + 1)">&raquo;</a></li>
-                <li class="page-item"><a class="page-link" asp-route-id="@(Model.Pager.TotalPages)">Last</a></li>
-            }
-        </ul>
-    </nav>
-}
+@await  Html.PartialAsync("Pager", Model.Pager)

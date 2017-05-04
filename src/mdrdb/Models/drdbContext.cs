@@ -13,10 +13,8 @@ namespace mdrdb.Models
         public virtual DbSet<DrProj> DrProj { get; set; }
         public virtual DbSet<DrStatus> DrStatus { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DrdbContext(DbContextOptions<DrdbContext> options) : base(options)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\drdb;Database=drdb;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,7 +55,7 @@ namespace mdrdb.Models
 
                 entity.Property(e => e.Ata)
                     .HasColumnName("ata")
-                    .HasDefaultValueSql("1");
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Custsupportref)
                     .HasColumnName("custsupportref")
@@ -81,7 +79,7 @@ namespace mdrdb.Models
 
                 entity.Property(e => e.Discrepancyid)
                     .HasColumnName("discrepancyid")
-                    .HasDefaultValueSql("2");
+                    .HasDefaultValueSql("((2))");
 
                 entity.Property(e => e.Documenttypeid).HasColumnName("documenttypeid");
 
@@ -109,7 +107,7 @@ namespace mdrdb.Models
                     .IsRequired()
                     .HasColumnName("priority")
                     .HasColumnType("char(20)")
-                    .HasDefaultValueSql("0");
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ProjDr).HasColumnName("proj_dr");
 
@@ -186,14 +184,12 @@ namespace mdrdb.Models
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Addhistory)
-                    .IsRequired()
                     .HasColumnName("addhistory")
-                    .HasDefaultValueSql("0");
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Addnewdr)
-                    .IsRequired()
                     .HasColumnName("addnewdr")
-                    .HasDefaultValueSql("0");
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Fname)
                     .IsRequired()
@@ -201,14 +197,12 @@ namespace mdrdb.Models
                     .HasColumnType("char(50)");
 
                 entity.Property(e => e.Initials)
-                    .IsRequired()
                     .HasColumnName("initials")
                     .HasColumnType("char(5)");
 
                 entity.Property(e => e.Isactive)
-                    .IsRequired()
                     .HasColumnName("isactive")
-                    .HasDefaultValueSql("1");
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Lname)
                     .IsRequired()
@@ -216,29 +210,24 @@ namespace mdrdb.Models
                     .HasColumnType("char(50)");
 
                 entity.Property(e => e.Mname)
-                    .IsRequired()
                     .HasColumnName("mname")
                     .HasColumnType("char(20)");
 
                 entity.Property(e => e.Username)
-                    .IsRequired()
                     .HasColumnName("username")
                     .HasColumnType("char(20)");
 
                 entity.Property(e => e.Viewewodr)
-                    .IsRequired()
                     .HasColumnName("viewewodr")
-                    .HasDefaultValueSql("0");
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Viewewohwtengdr)
-                    .IsRequired()
                     .HasColumnName("viewewohwtengdr")
-                    .HasDefaultValueSql("0");
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Viewinternaldr)
-                    .IsRequired()
                     .HasColumnName("viewinternaldr")
-                    .HasDefaultValueSql("0");
+                    .HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.InverseIdNavigation)
@@ -269,63 +258,45 @@ namespace mdrdb.Models
 
                 entity.Property(e => e.HistNum).HasColumnName("hist_num");
 
-                entity.Property(e => e.Addedfilesgroup)
-                    .IsRequired()
-                    .HasColumnName("addedfilesgroup");
+                entity.Property(e => e.Addedfilesgroup).HasColumnName("addedfilesgroup");
 
-                entity.Property(e => e.Assigned)
-                    .IsRequired()
-                    .HasColumnName("assigned");
+                entity.Property(e => e.Assigned).HasColumnName("assigned");
 
-                entity.Property(e => e.AttachmentId)
-                    .IsRequired()
-                    .HasColumnName("attachmentID");
+                entity.Property(e => e.AttachmentId).HasColumnName("attachmentID");
 
                 entity.Property(e => e.Author)
-                    .IsRequired()
                     .HasColumnName("author")
                     .HasColumnType("char(30)");
 
                 entity.Property(e => e.Date)
-                    .IsRequired()
                     .HasColumnName("date")
                     .HasColumnType("char(10)");
 
-                entity.Property(e => e.Deletedfilesgroup)
-                    .IsRequired()
-                    .HasColumnName("deletedfilesgroup");
+                entity.Property(e => e.Deletedfilesgroup).HasColumnName("deletedfilesgroup");
 
                 entity.Property(e => e.Descr)
-                    .IsRequired()
                     .HasColumnName("descr")
                     .HasColumnType("varchar(max)");
 
                 entity.Property(e => e.Enteredby)
-                    .IsRequired()
                     .HasColumnName("enteredby")
                     .HasColumnType("char(30)");
 
-                entity.Property(e => e.Fixedfilesgroup)
-                    .IsRequired()
-                    .HasColumnName("fixedfilesgroup");
+                entity.Property(e => e.Fixedfilesgroup).HasColumnName("fixedfilesgroup");
 
                 entity.Property(e => e.Internal).HasColumnName("internal");
 
-                entity.Property(e => e.LogUserId)
-                    .IsRequired()
-                    .HasColumnName("log_user_id");
+                entity.Property(e => e.LogUserId).HasColumnName("log_user_id");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.Version)
-                    .IsRequired()
                     .HasColumnName("version")
                     .HasColumnType("char(50)");
 
                 entity.HasOne(d => d.AssignedNavigation)
                     .WithMany(p => p.DrHistory)
                     .HasForeignKey(d => d.Assigned)
-                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_dr_history_dr_employee");
 
                 entity.HasOne(d => d.DrNumNavigation)

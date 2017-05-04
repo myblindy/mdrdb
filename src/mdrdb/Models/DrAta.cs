@@ -13,6 +13,6 @@ namespace mdrdb.Models
         public short Id { get; set; }
         public string Descr { get; set; }
 
-        public virtual ICollection<DrDr> DrDr { get; set; }
+        public ICollection<DrDr> DrDr { get; set; }
     }
 }

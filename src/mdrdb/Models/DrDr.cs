@@ -42,8 +42,8 @@ namespace mdrdb.Models
         public string Softwarelogoriginalname { get; set; }
         public string Tags { get; set; }
 
-        public virtual ICollection<DrHistory> DrHistory { get; set; }
-        public virtual DrAta AtaNavigation { get; set; }
-        public virtual DrProj ProjectNavigation { get; set; }
+        public ICollection<DrHistory> DrHistory { get; set; }
+        public DrAta AtaNavigation { get; set; }
+        public DrProj ProjectNavigation { get; set; }
     }
 }

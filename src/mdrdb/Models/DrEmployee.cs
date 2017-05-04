@@ -23,8 +23,8 @@ namespace mdrdb.Models
         public bool? Viewewohwtengdr { get; set; }
         public bool? Viewewodr { get; set; }
 
-        public virtual ICollection<DrHistory> DrHistory { get; set; }
-        public virtual DrEmployee IdNavigation { get; set; }
-        public virtual DrEmployee InverseIdNavigation { get; set; }
+        public ICollection<DrHistory> DrHistory { get; set; }
+        public DrEmployee IdNavigation { get; set; }
+        public DrEmployee InverseIdNavigation { get; set; }
     }
 }

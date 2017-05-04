@@ -37,12 +37,12 @@ namespace mdrdb
             services.AddDbContext<DrdbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DRDBConnection")));
 
-            using (var db = new DrdbContext())
-            {
-                var serviceProvider = db.GetInfrastructure<IServiceProvider>();
-                var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-                loggerFactory.AddProvider(new EFLoggerProvider());
-            }
+            //using (var db = new DrdbContext())
+            //{
+            //    var serviceProvider = db.GetInfrastructure<IServiceProvider>();
+            //    var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            //    loggerFactory.AddProvider(new EFLoggerProvider());
+            //}
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

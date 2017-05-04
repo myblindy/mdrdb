@@ -15,6 +15,6 @@ namespace mdrdb.Models
         public string Descr { get; set; }
         public int? Sortid { get; set; }
 
-        public virtual ICollection<DrHistory> DrHistory { get; set; }
+        public ICollection<DrHistory> DrHistory { get; set; }
     }
 }

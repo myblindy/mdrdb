@@ -17,6 +17,6 @@ namespace mdrdb.Models
         public string LastChange { get; set; }
         public string Nn { get; set; }
 
-        public virtual ICollection<DrDr> DrDr { get; set; }
+        public ICollection<DrDr> DrDr { get; set; }
     }
 }
