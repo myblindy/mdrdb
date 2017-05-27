@@ -7,7 +7,7 @@ namespace mdrdb.Models
     {
         public int DrNum { get; set; }
         public int HistNum { get; set; }
-        public string Date { get; set; }
+        public DateTime? Date { get; set; }
         public string Version { get; set; }
         public string Author { get; set; }
         public string Descr { get; set; }

@@ -52,10 +52,32 @@
 	.dr-item .ata {
 	}
 
+	.dr-item .priority-1:after {
+		background-image: url('/imgs/priority-1.png');
+		background-size: 20px 20px;
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		content: "";
+	}
+
+	.dr-item .priority-3:after {
+		background-image: url('/imgs/priority-3.png');
+		background-size: 20px 20px;
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		content: "";
+	}
+
 .search-state-description {
 	padding: 15px;
 }
 
 .selected-item form {
 	display: inline;
+}
+
+.sm-blockquote {
+	font-size: 1em;
 }

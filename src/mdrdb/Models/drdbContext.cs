@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Logging;
 
 namespace mdrdb.Models
 {
@@ -13,8 +14,18 @@ namespace mdrdb.Models
         public virtual DbSet<DrProj> DrProj { get; set; }
         public virtual DbSet<DrStatus> DrStatus { get; set; }
 
-        public DrdbContext(DbContextOptions<DrdbContext> options) : base(options)
+        private ILoggerFactory LoggerFactory;
+
+        public DrdbContext(DbContextOptions<DrdbContext> options, ILoggerFactory LoggerFactory) : base(options)
         {
+            this.LoggerFactory = LoggerFactory;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseLoggerFactory(LoggerFactory);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -89,7 +100,7 @@ namespace mdrdb.Models
 
                 entity.Property(e => e.DueDate)
                     .HasColumnName("due_date")
-                    .HasColumnType("nchar(12)");
+                    .HasColumnType("date");
 
                 entity.Property(e => e.Flightcond)
                     .HasColumnName("flightcond")
@@ -270,7 +281,7 @@ namespace mdrdb.Models
 
                 entity.Property(e => e.Date)
                     .HasColumnName("date")
-                    .HasColumnType("char(10)");
+                    .HasColumnType("date");
 
                 entity.Property(e => e.Deletedfilesgroup).HasColumnName("deletedfilesgroup");
 

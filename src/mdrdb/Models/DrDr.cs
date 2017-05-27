@@ -30,7 +30,7 @@ namespace mdrdb.Models
         public string Load { get; set; }
         public string Descr1 { get; set; }
         public string Descr2 { get; set; }
-        public string DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
         public string Custsupportref { get; set; }
         public string Softwaretitle { get; set; }
         public string Dateofrepro { get; set; }

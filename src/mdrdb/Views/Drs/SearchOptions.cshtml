@@ -2,18 +2,60 @@
 
 <h1>Search Options</h1>
 
-<form method="post">
+<form asp-action="SearchOptions">
 
     <div class="form-group row">
         <label asp-for="SelectedProjectIDs" class="col-sm-2 col-form-label">Projects:</label>
         <div class="col-sm-10">
-            <select asp-for="SelectedProjectIDs" asp-items="Model.AllProjects" class="multiple-select"></select>
+            <select asp-for="SelectedProjectIDs" asp-items="Model.AllProjects" class="multiple-select form-control"></select>
         </div>
     </div>
     <div class="form-group row">
         <label asp-for="SelectedStatusIDs" class="col-sm-2 col-form-label">Statuses:</label>
         <div class="col-sm-10">
-            <select asp-for="SelectedStatusIDs" asp-items="Model.AllStatuses" class="multiple-select"></select>
+            <select asp-for="SelectedStatusIDs" asp-items="Model.AllStatuses" class="multiple-select form-control"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="SelectedAssignedEmployeeIDs" class="col-sm-2 col-form-label">Assigned To:</label>
+        <div class="col-sm-10">
+            <select asp-for="SelectedAssignedEmployeeIDs" asp-items="Model.AllAssignedEmployees" class="multiple-select form-control"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="SelectedPriorityIDs" class="col-sm-2 col-form-label">Priority:</label>
+        <div class="col-sm-10">
+            <select asp-for="SelectedPriorityIDs" asp-items="Model.AllPriorities" class="multiple-select form-control"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UpdatedFrom" class="col-sm-2 col-form-label">Updated between:</label>
+        <div class="col-sm-10">
+            <div class="row">
+                <input asp-for="UpdatedFrom" asp-format="{0:yyyy-MM-dd}" class="form-control col-sm-2 date-picker-control" type="text" placeholder="(any)" />
+                <div class="input-group-addon">to</div>
+                <input asp-for="UpdatedTo" asp-format="{0:yyyy-MM-dd}" class="form-control col-sm-2 date-picker-control" type="text" placeholder="(any)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="CreatedFrom" class="col-sm-2 col-form-label">Created between:</label>
+        <div class="col-sm-10">
+            <div class="row">
+                <input asp-for="CreatedFrom" asp-format="{0:yyyy-MM-dd}" class="form-control col-sm-2 date-picker-control" type="text" placeholder="(any)" />
+                <div class="input-group-addon">to</div>
+                <input asp-for="CreatedTo" asp-format="{0:yyyy-MM-dd}" class="form-control col-sm-2 date-picker-control" type="text" placeholder="(any)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="DueDateFrom" class="col-sm-2 col-form-label">Due between:</label>
+        <div class="col-sm-10">
+            <div class="row">
+                <input asp-for="DueDateFrom" asp-format="{0:yyyy-MM-dd}" class="form-control col-sm-2 date-picker-control" type="text" placeholder="(any)" />
+                <div class="input-group-addon">to</div>
+                <input asp-for="DueDateTo" asp-format="{0:yyyy-MM-dd}" class="form-control col-sm-2 date-picker-control" type="text" placeholder="(any)" />
+            </div>
         </div>
     </div>
 
@@ -33,6 +75,6 @@
     <script src="~/lib/select2/dist/js/select2.js"></script>
     <script type="text/javascript">
         $('.multiple-select').select2({ dropdownAutoWidth: true, allowClear: true, width: '100%' });
-        //$($('.multiple-select').select2('container')).addClass('col-sm-10');
+        $('.date-picker-control').datepicker({ format: 'yyyy-mm-dd' });
     </script>
 }

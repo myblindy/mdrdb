@@ -1,11 +1,11 @@
 ﻿@model HomeModelView
 
-<p class="bg-info search-state-description">
-    Showing @Model.SearchState.Description. <a asp-action="SearchOptions">(change)</a>
-</p>
+<div class="alert alert-info">
+    Showing @Model.SearchState.Description. <a class="alert-link" asp-action="SearchOptions">(change)</a>
+</div>
 
 @await Html.PartialAsync("Pager", Model.Pager)
 
 @await Html.PartialAsync("DrItem", Model.DrCollection)
 
-@await  Html.PartialAsync("Pager", Model.Pager)
+@await Html.PartialAsync("Pager", Model.Pager)

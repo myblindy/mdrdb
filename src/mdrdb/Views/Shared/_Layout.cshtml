@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width" />
     <title>DRDB</title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/all.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" />
     <link rel="stylesheet" href="~/css/main.css" />
     @RenderSection("head", required: false)
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md navbar-fixed-top navbar-dark">
-        <a class="navbar-brand" asp-controller="Home" asp-action="Index">DRDB</a>
+        <a class="navbar-brand" asp-controller="Drs" asp-action="List" asp-route-id="1">DRDB</a>
         <ul class="nav navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="#">About</a>
@@ -30,7 +30,16 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/tether/dist/js/tether.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" charset="utf-8"></script>
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+
+        // tooltips
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
 </body>
 </html>

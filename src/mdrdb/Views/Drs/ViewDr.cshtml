@@ -1,1 +1,89 @@
-﻿<h1>View DR</h1>
+﻿@model ViewDrModelView
+
+<div class="alert alert-info">
+    Details for DR #@Model.Dr.ProjDr under project @Model.Dr.ProjectNavigation.Nn.TrimEnd() @Model.Dr.ProjectNavigation.AcName.TrimEnd().
+</div>
+
+@* DR details *@
+<div class="row">
+    <div class="col-2"><span class="dr-details-value">P@(Model.Dr.Priority.TrimEnd())</span></div>
+    @if (Model.Dr.DueDate.HasValue)
+    {
+        <div class="col-2"><span class="dr-details-header">Due on</span><span class="dr-details-value">@Model.Dr.DueDate.Value.ToString("yyyy-MM-dd")</span></div>
+    }
+    else
+    {
+        <div class="col-2"><span class="dr-details-inactive">No Due Date</span></div>
+    }
+    <div class="col-2"><span class="dr-details-header">Type:</span> <span class="dr-details-value">@Model.Dr.ProjDr.ToDiscrepancyType()</span></div>
+    <div class="col-2"><span class="dr-details-header">Customer:</span> <span class="dr-details-value">@Model.Dr.ProjectNavigation.Customer.TrimEnd()</span></div>
+    <div class="col-2"><span class="dr-details-value">@Model.Dr.AtaNavigation.Descr.TrimEnd()</span></div>
+    @if (Model.Dr.Reproducible == true)
+    {
+        <div class="col-2"><span class="dr-details-value"><a href="#">Reproducible</a></span></div>
+    }
+    else
+    {
+        <div class="col-2"><span class="dr-details-inactive">Not Reproducible</span></div>
+    }
+</div>
+<div class="row">
+    <div class="col-2"><span class="dr-details-header">Load:</span> <span class="dr-details-value">@Model.Dr.Load.TrimEnd()</span></div>
+    <div class="col-2"><span class="dr-details-header">Assembly:</span> <span class="dr-details-value">@Model.Dr.Mano.TrimEnd()</span></div>
+    <div class="col-2"><span class="dr-details-header">Customer Support Ref:</span> <span class="dr-details-value">@Model.Dr.Custsupportref</span></div>
+</div>
+
+@* expected/encountered behaviour "tabs" *@
+<ul class="nav nav-pills" role="tablist">
+    <li role="presentation" class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab" href="#expectedbehaviour">Expected Behaviour</a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="#encounteredbehaviour">Encountered Behaviour</a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="#nobehaviour">Hide both</a></li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="expectedbehaviour">
+        <blockquote class="blockquote sm-blockquote">@Model.Dr.Descr1.TrimEnd().ToMultiLineHtml()</blockquote>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="encounteredbehaviour">
+        <blockquote class="blockquote sm-blockquote">@Model.Dr.Descr2?.TrimEnd()?.ToMultiLineHtml()</blockquote>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="nobehaviour">
+    </div>
+</div>
+
+@* list of history items *@
+<table class="table table-hover table-sm">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Author</th>
+            <th>Assigned</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Files</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Dr.DrHistory.OrderBy(w => w.HistNum))
+    {
+        <tr>
+            <td>@item.HistNum</td>
+            <td class="text-nowrap">@item.Date.TrimEnd()</td>
+            <td>
+                @item.Author.TrimEnd()
+                @if (item.Author?.TrimEnd().Equals(item.Enteredby?.TrimEnd(), StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    @:(entered by @item.Enteredby.TrimEnd())
+                }
+            </td>
+            <td>
+                <a data-toggle="tooltip" title="@item.AssignedNavigation.Fname.TrimEnd() @item.AssignedNavigation.Lname.TrimEnd()">
+                    @item.AssignedNavigation.Username.TrimEnd()
+                </a>
+            </td>
+            <td><a data-toggle="tooltip" title="@item.StatusNavigation.Descr.TrimEnd()">@item.StatusNavigation.Status.TrimEnd()</a></td>
+            <td>@item.Descr.TrimEnd().ToMultiLineHtml()</td>
+            <td>&nbsp;</td>
+        </tr>
+    }
+</table>

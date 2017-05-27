@@ -3,10 +3,11 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4",
-    "jquery": "^3.1.1",
-    "jquery-validation": "^1.15.1",
+    "jquery": "^3.2.1",
+    "jquery-validation": "^1.16.0",
     "jquery-validation-unobtrusive": "^3.2.6",
     "jquery-ui": "^1.12.1",
-    "select2": "^4.0.3"
+    "select2": "^4.0.3",
+    "bootstrap-datepicker": "^v1.7.0-RC3"
   }
 }
